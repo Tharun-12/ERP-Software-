@@ -389,6 +389,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import {BASE_URL} from '@/apiurl/apiurl';
 import {
   Phone,
   Mail,
@@ -410,7 +411,7 @@ import {
   viewportOnce,
 } from '@/lib/anim';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = BASE_URL;
 
 interface FormErrors {
   name?: string;
