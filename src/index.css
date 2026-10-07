@@ -12,6 +12,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
   }
 
   body {
@@ -19,6 +20,10 @@
     color: #0f172a;
     background-color: #ffffff;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 320px;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -30,6 +35,20 @@
     background-color: #2563eb;
     color: #ffffff;
   }
+}
+
+/* Safety net: beats any leftover Vite template rules */
+html body {
+  display: block !important;
+  place-items: initial !important;
+}
+
+html body #root {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
 }
 
 @layer utilities {
