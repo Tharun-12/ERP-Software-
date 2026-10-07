@@ -1,0 +1,50 @@
+import {
+  Package,
+  Receipt,
+  Users,
+  Calculator,
+  ShoppingCart,
+  ArrowLeftRight,
+  BarChart3,
+  ShieldCheck,
+  Layers,
+  Workflow,
+  Target,
+  Lock,
+  TrendingUp,
+  Headphones,
+  PlusCircle,
+  UserPlus,
+  Landmark,
+  FileText,
+  Activity,
+  Wallet,
+  LucideIcon,
+} from 'lucide-react';
+
+const map: Record<string, LucideIcon> = {
+  Package,
+  Receipt,
+  Users,
+  Calculator,
+  ShoppingCart,
+  ArrowLeftRight,
+  BarChart3,
+  ShieldCheck,
+  Layers,
+  Workflow,
+  Target,
+  Lock,
+  TrendingUp,
+  Headphones,
+  PlusCircle,
+  UserPlus,
+  Landmark,
+  FileText,
+  Activity,
+  Wallet,
+};
+
+export function getIcon(name: string): LucideIcon {
+  return map[name] ?? Package;
+}
