@@ -309,16 +309,18 @@
 // }
 
 
-
 import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { navLinks } from '@/lib/data';
-import logo from '@/assets/iiiqlogo.webp'; // 👈 adjust filename/extension as needed
+import logo from '@/assets/iiiqlogo.webp';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -334,21 +336,61 @@ export default function Navbar() {
     };
   }, [open]);
 
-  /** Smoothly scroll to the form inside the Contact section */
-  const scrollToContactForm = (closeMobile = false) => {
+  /**
+   * Navigate to a section route, then scroll to the element with that id.
+   */
+  const goToSection = (
+    path: string,
+    sectionId: string,
+    closeMobile: boolean = false
+  ) => {
     if (closeMobile) setOpen(false);
+    const delay = closeMobile ? 300 : 0;
 
-    // small delay when closing mobile drawer so the animation can finish
+    const isSectionRoute = [
+      '/home',
+      '/features',
+      '/modules',
+      '/why',
+      '/analytics',
+      '/contact',
+    ].includes(location.pathname);
+
+    setTimeout(() => {
+      if (location.pathname !== path) {
+        navigate(path);
+      }
+
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (!el) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+        const navbarHeight = 80;
+        const top =
+          el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }, isSectionRoute ? 0 : 80);
+    }, delay);
+  };
+
+  const goToContactForm = (closeMobile: boolean = false) => {
+    if (closeMobile) setOpen(false);
     const delay = closeMobile ? 300 : 0;
 
     setTimeout(() => {
-      const el = document.getElementById('contact-form');
-      if (!el) return;
-
-      const navbarHeight = 80; // matches h-16 / h-18 + a bit of breathing room
-      const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
-
-      window.scrollTo({ top, behavior: 'smooth' });
+      if (location.pathname !== '/contact') {
+        navigate('/contact');
+      }
+      setTimeout(() => {
+        const el = document.getElementById('contact-form');
+        if (!el) return;
+        const navbarHeight = 80;
+        const top =
+          el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }, location.pathname !== '/contact' ? 80 : 0);
     }, delay);
   };
 
@@ -365,7 +407,15 @@ export default function Navbar() {
         }`}
       >
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:h-18 lg:px-8">
-          <a href="#home" className="flex items-center gap-2" aria-label="iiiQBets home">
+          <a
+            href="/home"
+            onClick={(e) => {
+              e.preventDefault();
+              goToSection('/home', 'home');
+            }}
+            className="flex items-center gap-2"
+            aria-label="iiiQBets home"
+          >
             <img
               src={logo}
               alt="iiiQBets logo"
@@ -377,11 +427,17 @@ export default function Navbar() {
 
           <ul className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.path}>
                 <a
-                  href={link.href}
+                  href={link.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goToSection(link.path, link.sectionId);
+                  }}
                   className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                    scrolled
+                    location.pathname === link.path
+                      ? 'text-brand-600'
+                      : scrolled
                       ? 'text-ink-600 hover:bg-ink-100 hover:text-ink-900'
                       : 'text-ink-700 hover:bg-white/60 hover:text-ink-900'
                   }`}
@@ -394,10 +450,10 @@ export default function Navbar() {
 
           <div className="hidden lg:block">
             <a
-              href="#contact-form"
+              href="/contact"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToContactForm(false);
+                goToContactForm(false);
               }}
               className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition-all hover:bg-brand-700 hover:shadow-premium"
             >
@@ -456,10 +512,13 @@ export default function Navbar() {
               </div>
               <ul className="flex flex-col gap-1 px-4 py-6">
                 {navLinks.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.path}>
                     <a
-                      href={link.href}
-                      onClick={() => setOpen(false)}
+                      href={link.path}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToSection(link.path, link.sectionId, true);
+                      }}
                       className="block rounded-xl px-4 py-3 text-base font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-brand-600"
                     >
                       {link.label}
@@ -469,10 +528,10 @@ export default function Navbar() {
               </ul>
               <div className="mt-auto border-t border-ink-100 p-4">
                 <a
-                  href="#contact-form"
+                  href="/contact"
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToContactForm(true);
+                    goToContactForm(true);
                   }}
                   className="flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-5 py-3 text-base font-semibold text-white shadow-glow"
                 >

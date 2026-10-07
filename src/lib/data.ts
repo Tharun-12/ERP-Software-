@@ -1,10 +1,10 @@
 export const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Features', href: '#features' },
-  { label: 'Modules', href: '#modules' },
-  { label: 'Why iiiQBets', href: '#why' },
-  { label: 'Analytics', href: '#analytics' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', path: '/home', sectionId: 'home' },
+  { label: 'Features', path: '/features', sectionId: 'features' },
+  { label: 'Modules', path: '/modules', sectionId: 'modules' },
+  { label: 'Why iiiQBets', path: '/why', sectionId: 'why' },
+  { label: 'Analytics', path: '/analytics', sectionId: 'analytics' },
+  { label: 'Contact', path: '/contact', sectionId: 'contact' },
 ];
 
 export const dashboardNav = [
@@ -156,19 +156,19 @@ export const companyInfo = {
 
 export const footerLinks = {
   Company: [
-    { label: 'About', href: '#why' },
-    { label: 'Why iiiQBets', href: '#why' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', path: '/home', sectionId: 'home' },
+    { label: 'Why iiiQBets', path: '/why', sectionId: 'why' },
+    { label: 'Contact', path: '/contact', sectionId: 'contact' },
   ],
   ERP: [
-    { label: 'Features', href: '#features' },
-    { label: 'Modules', href: '#modules' },
-    { label: 'Analytics', href: '#analytics' },
-    { label: 'Reports', href: '#analytics' },
+    { label: 'Features', path: '/features', sectionId: 'features' },
+    { label: 'Modules', path: '/modules', sectionId: 'modules' },
+    { label: 'Analytics', path: '/analytics', sectionId: 'analytics' },
+    { label: 'Reports', path: '/analytics', sectionId: 'analytics' },
   ],
   Support: [
-    { label: 'Request a Demo', href: '#contact' },
-    { label: 'Contact Us', href: '#contact' },
-    { label: 'Help', href: '#contact' },
+    { label: 'Request a Demo', path: '/contact', sectionId: 'contact-form' },
+    { label: 'Contact Us', path: '/contact', sectionId: 'contact' },
+    { label: 'Help', path: '/contact', sectionId: 'contact' },
   ],
 };
